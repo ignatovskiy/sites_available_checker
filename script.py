@@ -29,7 +29,8 @@ def handle_menu(user_menu_input: int) -> bool:
     Handles user requests (int number from 1 to 7)
     :param user_menu_input: user request
     :type user_menu_input: int
-    :returns: boolean value (True if user wants to continue using program and False if not)
+    :returns: boolean value
+    (True if user wants to continue using program and False if not)
     """
 
     if user_menu_input == 1:

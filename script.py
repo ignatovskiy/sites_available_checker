@@ -10,7 +10,7 @@ country_ip_request = "https://ip-api.io/json/"
 
 
 def main():
-    user_input = True
+    user_input: bool = True
 
     while user_input:
         os.system("clear")
@@ -24,7 +24,14 @@ def main():
             pass
 
 
-def handle_menu(user_menu_input: int):
+def handle_menu(user_menu_input: int) -> bool:
+    """
+    Handles user requests (int number from 1 to 7)
+    :param user_menu_input: user request
+    :type user_menu_input: int
+    :returns: boolean value (True if user wants to continue using program and False if not)
+    """
+
     if user_menu_input == 1:
         urls_dict = get_urls_from_file()
         if urls_dict is not False:
@@ -95,6 +102,10 @@ def handle_menu(user_menu_input: int):
 
 
 def print_menu():
+    """
+    Prints main menu of program
+    """
+
     print("Availability Checker v0.17.4.20\n")
     print("Выберите нужное действие:")
     print("1 - Проверить доступность ресурсов из файла")
@@ -106,7 +117,14 @@ def print_menu():
     print("7 - Закрыть программу")
 
 
-def save_urls(urls_dict: dict):
+def save_urls(urls_dict: dict) -> bool:
+    """
+    Saves urls dictionary to json file
+    :param urls_dict:
+    :type urls_dict: dict
+    :returns: boolean value (true if saving was success and false if not)
+    """
+
     if isinstance(urls_dict, dict):
         try:
             with open('urls.json', 'w') as f:
@@ -119,6 +137,11 @@ def save_urls(urls_dict: dict):
 
 
 def get_urls_from_file() -> dict or False:
+    """
+    Loads urls dictionary from json file
+    :returns: urls dictionary if loading was success and False if not
+    """
+
     try:
         with open('urls.json', 'r') as f:
             urls_dict = json.load(f)
@@ -127,11 +150,27 @@ def get_urls_from_file() -> dict or False:
         return False
 
 
-def get_url_categories(urls_dict: dict):
+def get_url_categories(urls_dict: dict) -> list:
+    """
+    Get categories of urls dictionary
+    :param urls_dict: dictionary of urls for checking
+    :type urls_dict: dict
+    :returns: categories of urls from urls dictionary
+    """
+
     return list(urls_dict.keys())
 
 
-def add_new_category(urls_dict: dict, category: str):
+def add_new_category(urls_dict: dict, category: str) -> bool:
+    """
+    Adds category to urls dictionary
+    :param urls_dict: dictionary of urls for checking
+    :param category: category of urls for adding
+    :type urls_dict: dict
+    :type category: str
+    :returns: boolean value (true if adding was success and false if not)
+    """
+
     if category in urls_dict:
         print("Категория уже существует.")
         return False
@@ -141,7 +180,16 @@ def add_new_category(urls_dict: dict, category: str):
     return True
 
 
-def delete_category(urls_dict: dict, category: str):
+def delete_category(urls_dict: dict, category: str) -> bool:
+    """
+    Deletes category from urls dictionary
+    :param urls_dict: dictionary of urls for checking
+    :param category: category of urls for deleting
+    :type urls_dict: dict
+    :type category: str
+    :returns: boolean value (true if deleting was success and false if not)
+    """
+
     if category not in urls_dict:
         print("Такой категории не существует")
         return False
@@ -151,7 +199,18 @@ def delete_category(urls_dict: dict, category: str):
     return True
 
 
-def add_new_url(urls_dict: dict, category: str, url: str):
+def add_new_url(urls_dict: dict, category: str, url: str) -> bool:
+    """
+    Adds url to urls dictionary
+    :param urls_dict: dictionary of urls for checking
+    :param category: category of urls for adding
+    :param url: url that will be added
+    :type urls_dict: dict
+    :type category: str
+    :type url: str
+    :returns: boolean value (true if adding was success and false if not)
+    """
+
     if category not in urls_dict:
         add_new_category(urls_dict, category)
         print("Данной категории не существовало, но она была создана.")
@@ -165,7 +224,18 @@ def add_new_url(urls_dict: dict, category: str, url: str):
     return True
 
 
-def delete_url(urls_dict: dict, category: str, url: str):
+def delete_url(urls_dict: dict, category: str, url: str) -> bool:
+    """
+    Deletes url from urls dictionary
+    :param urls_dict: dictionary of urls for checking
+    :param category: category of urls for deleting
+    :param url: url that will be deleted
+    :type urls_dict: dict
+    :type category: str
+    :type url: str
+    :returns: boolean value (true if deleting was success and false if not)
+    """
+
     if category not in urls_dict:
         print("Данной категории не существует")
         return False
@@ -178,7 +248,14 @@ def delete_url(urls_dict: dict, category: str, url: str):
     return True
 
 
-def check(urls_list) -> []:
+def check(urls_list: list) -> list:
+    """
+    Checks selected urls for their availability
+    :param urls_list: url(s) list for checking
+    :type urls_list: list
+    :returns: list with availability status of site(s) and site url(s)
+    """
+
     result = []
     for url in urls_list:
         if isinstance(urls_list, str):
@@ -196,7 +273,12 @@ def check(urls_list) -> []:
     return result
 
 
-def get_country_ip():
+def get_country_ip() -> str:
+    """
+    Gets country flag by ip via api of ip-api.io service
+    :returns: emoji with flag of user's country
+    """
+
     return (requests.get(country_ip_request).json())['emojiFlag']
 
 
